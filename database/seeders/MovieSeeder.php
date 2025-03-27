@@ -3,11 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-use Illuminate\Database\Seeder;
-
 
 class MovieSeeder extends Seeder
 {
@@ -33,6 +32,8 @@ class MovieSeeder extends Seeder
                 'is_published' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'deleted_at' => null,
+
             ],
             [
                 'title' => 'Avengers: Endgame',
@@ -50,6 +51,8 @@ class MovieSeeder extends Seeder
                 'is_published' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'deleted_at' => null,
+
             ],
             [
                 'title' => 'Interstellar',
@@ -67,6 +70,7 @@ class MovieSeeder extends Seeder
                 'is_published' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'deleted_at' => null,
             ],
         ]);
     }

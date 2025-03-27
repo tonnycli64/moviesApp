@@ -31,6 +31,7 @@ return new class extends Migration
             $table->date('release_date');
             $table->boolean('is_published')->default(false);
             $table->timestamps();
+            $table->softDeletes()->default(null)->nullable(); // Adds deleted_at column
         });
     }
 

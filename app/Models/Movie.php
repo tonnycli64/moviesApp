@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Movie extends Model
 {
+    use SoftDeletes; // Add this line
+
     protected $fillable = [
         'title', 'slug', 'description', 'price', 
         'cover_image', 'hosting_type', 'video_path',
@@ -14,9 +18,15 @@ class Movie extends Model
         'duration_minutes', 'release_date', 'is_published'
     ];
 
-    public function genres(): BelongsToMany
+    public function genres()
     {
-        return $this->belongsToMany(Genre::class);
+        return $this->belongsToMany(Genre::class, 'movie_genre');
+    }
+
+
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Purchase::class);
     }
 
     public function getVideoSourceAttribute()

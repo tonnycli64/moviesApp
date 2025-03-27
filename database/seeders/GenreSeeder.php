@@ -31,6 +31,7 @@ class GenreSeeder extends Seeder
             DB::table('genres')->insert([
                 'name' => $genre,
                 'slug' => Str::slug($genre),
+                'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
