@@ -6,9 +6,17 @@ use App\Filament\Resources\MovieResource\Pages;
 use App\Filament\Resources\MovieResource\RelationManagers;
 use App\Models\Movie;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,43 +31,27 @@ class MovieResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$'),
-                Forms\Components\FileUpload::make('cover_image')
-                    ->image()
+                TextInput::make('title')->required(),
+                TextInput::make('slug')->unique()->required(),
+                Textarea::make('description')->required(),
+                TextInput::make('price')->numeric()->required(),
+                TextInput::make('cover_image')->required(),
+                Select::make('hosting_type')
+                    ->options([
+                        'self' => 'Self-Hosted',
+                        'vimeo' => 'Vimeo',
+                        'youtube' => 'YouTube',
+                        'aws' => 'AWS S3'
+                    ])
+                    ->searchable()
                     ->required(),
-                Forms\Components\TextInput::make('hosting_type')
-                    ->required(),
-                Forms\Components\TextInput::make('video_path')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('external_id')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('streaming_url')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('trailer_url')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('duration_minutes')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\DatePicker::make('release_date')
-                    ->required(),
-                Forms\Components\Toggle::make('is_published')
-                    ->required(),
+                TextInput::make('video_path'),
+                TextInput::make('external_id'),
+                TextInput::make('streaming_url'),
+                TextInput::make('trailer_url'),
+                TextInput::make('duration_minutes')->numeric()->required(),
+                DatePicker::make('release_date')->required(),
+                Radio::make('is_published')->label('Publish this video?')->boolean(),
             ]);
     }
 
@@ -67,42 +59,44 @@ class MovieResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+               TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
+               TextColumn::make('slug')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')
+               TextColumn::make('price')
                     ->money()
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('cover_image'),
-                Tables\Columns\TextColumn::make('hosting_type'),
-                Tables\Columns\TextColumn::make('video_path')
+               ImageColumn::make('cover_image'),
+               TextColumn::make('hosting_type')
+                    ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('external_id')
+               TextColumn::make('video_path')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('streaming_url')
+               TextColumn::make('external_id')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('trailer_url')
+               TextColumn::make('streaming_url')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('duration_minutes')
+               TextColumn::make('trailer_url')
+                    ->searchable(),
+               TextColumn::make('duration_minutes')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('release_date')
+               TextColumn::make('release_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_published')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+
+               IconColumn::make('is_published')->boolean(),
+               TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+               TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+               //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
