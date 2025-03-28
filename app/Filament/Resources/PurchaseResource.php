@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\PurchaseStatus;
+use App\Filament\Exports\PurchaseExporter;
 use App\Filament\Resources\PurchaseResource\Pages;
 use App\Models\Purchase;
 use Filament\Forms;
@@ -10,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+
 
 class PurchaseResource extends Resource
 {
@@ -115,6 +117,9 @@ class PurchaseResource extends Resource
             //RelationManagers\PaymentsRelationManager::class,
         ];
     }
+
+
+
 
     public static function getPages(): array
     {

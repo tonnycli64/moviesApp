@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Filament\Facades\Filament;
+use Filament\Actions\ExportAction;
+
 
 class FilamentServiceProvider extends ServiceProvider
 {
@@ -28,5 +30,8 @@ class FilamentServiceProvider extends ServiceProvider
                 'System Settings'
             ]);
         });
+
+
+        ExportAction::configureUsing(fn (ExportAction $action) => $action->fileDisk('s3'));
     }
 }
