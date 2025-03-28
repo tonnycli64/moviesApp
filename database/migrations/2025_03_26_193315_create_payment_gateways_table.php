@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // database/migrations/YYYY_MM_DD_create_payment_gateways_table.php
         Schema::create('payment_gateways', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // e.g., "Stripe", "PayPal", "Flutterwave"
-            $table->string('slug')->unique(); // e.g., "stripe", "paypal"
+            $table->string('name'); // Stripe, PayPal, etc.
+            $table->string('slug')->unique(); // stripe, paypal
             $table->boolean('is_active')->default(true);
-            $table->json('credentials')->nullable(); // Encrypted API keys/config
-            $table->text('description')->nullable();
-            $table->decimal('transaction_fee', 5, 2)->default(0); // Optional fee %
+            $table->decimal('transaction_fee', 5, 2)->default(0); // Percentage fee
+            $table->json('credentials')->nullable(); // Encrypted API keys
             $table->string('webhook_secret')->nullable();
             $table->timestamps();
         });

@@ -9501,6 +9501,7 @@
             "autoload": {
                 "psr-4": {
                     "App\\": "app/",
+                    "App\\Enums\\": "app/Enums/",
                     "Database\\Seeders\\": "database/seeders/",
                     "Database\\Factories\\": "database/factories/"
                 }

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class PurchaseSeeder extends Seeder
 {
@@ -15,24 +15,24 @@ class PurchaseSeeder extends Seeder
     {
         $users = DB::table('users')->pluck('id');
         $movies = DB::table('movies')->pluck('id');
-        $paymentMethods = ['M-Pesa', 'Credit Card', 'PayPal', 'Bitcoin'];
-        $statuses = ['pending', 'completed', 'failed'];
+        $statuses = ['Pending', 'Completed', 'Failed', 'Refunded'];
 
         foreach ($users as $user) {
-            // Each user makes 1 to 3 random purchases
-            $purchases = $movies->random(rand(1, 3));
+            DB::table('purchases')->insert([
+                'user_id' => $user,
+                'movie_id' => $movies->random(),
+                'amount' => rand(1000, 5000) / 100, // Random amount between 10.00 - 50.00
+                'currency' => 'USD',
+                'status' => $status = $statuses[array_rand($statuses)],
 
-            foreach ($purchases as $movie) {
-                DB::table('purchases')->insert([
-                    'user_id' => $user,
-                    'movie_id' => $movie,
-                    'amount' => rand(500, 2000) / 100, // Random price between 5.00 - 20.00
-                    'payment_method' => $paymentMethods[array_rand($paymentMethods)],
-                    'status' => $statuses[array_rand($statuses)],
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
+                // Refund details if status is refunded
+                'refund_amount' => $status === 'refunded' ? rand(500, 5000) / 100 : null,
+                'refund_reason' => $status === 'refunded' ? 'User requested refund' : null,
+                'refunded_at' => $status === 'refunded' ? Carbon::now() : null,
+
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
     }
 }

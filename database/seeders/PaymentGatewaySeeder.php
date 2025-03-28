@@ -1,9 +1,7 @@
 <?php
+
 namespace Database\Seeders;
 
-
-use App\Models\PaymentGateway;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -20,53 +18,43 @@ class PaymentGatewaySeeder extends Seeder
                 'name' => 'Stripe',
                 'slug' => 'stripe',
                 'is_active' => true,
-                'credentials' => json_encode([
-                    'public_key' => 'pk_test_123456',
-                    'secret_key' => 'sk_test_123456',
-                ]),
-                'description' => 'Stripe is a secure payment gateway for online transactions.',
                 'transaction_fee' => 2.9,
+                'credentials' => json_encode([
+                    'api_key' => 'sk_test_'.Str::random(24),
+                    'secret' => 'sk_live_'.Str::random(24)
+                ]),
                 'webhook_secret' => Str::random(32),
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'name' => 'PayPal',
                 'slug' => 'paypal',
                 'is_active' => true,
-                'credentials' => json_encode([
-                    'client_id' => 'paypal_client_id',
-                    'client_secret' => 'paypal_client_secret',
-                ]),
-                'description' => 'PayPal allows easy and secure payments worldwide.',
                 'transaction_fee' => 3.5,
+                'credentials' => json_encode([
+                    'client_id' => 'paypal_client_'.Str::random(24),
+                    'secret' => 'paypal_secret_'.Str::random(24)
+                ]),
                 'webhook_secret' => Str::random(32),
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
                 'name' => 'Flutterwave',
                 'slug' => 'flutterwave',
-                'is_active' => true,
+                'is_active' => false,
+                'transaction_fee' => 1.4,
                 'credentials' => json_encode([
-                    'public_key' => 'FLWPUBK_TEST-123456',
-                    'secret_key' => 'FLWSECK_TEST-123456',
+                    'public_key' => 'FLW_PUBLIC_'.Str::random(24),
+                    'secret_key' => 'FLW_SECRET_'.Str::random(24)
                 ]),
-                'description' => 'Flutterwave provides payment processing across Africa.',
-                'transaction_fee' => 1.5,
                 'webhook_secret' => Str::random(32),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         ];
 
-        foreach ($gateways as $gateway) {
-            DB::table('payment_gateways')->insert([
-                'name' => $gateway['name'],
-                'slug' => $gateway['slug'],
-                'is_active' => $gateway['is_active'],
-                'credentials' => $gateway['credentials'],
-                'description' => $gateway['description'],
-                'transaction_fee' => $gateway['transaction_fee'],
-                'webhook_secret' => $gateway['webhook_secret'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        DB::table('payment_gateways')->insert($gateways);
     }
 }
-

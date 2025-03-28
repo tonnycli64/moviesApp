@@ -1,12 +1,15 @@
 <?php
-
+ 
+// app/Models/Payment.php
 namespace App\Models;
 
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
+
     protected $fillable = [
         'purchase_id',
         'gateway_id',
@@ -18,8 +21,9 @@ class Payment extends Model
     ];
 
     protected $casts = [
-        'metadata' => 'json',
-        'amount' => 'decimal:2'
+        'status' => PaymentStatus::class,
+        'metadata' => 'array',
+        'amount' => 'decimal:2',
     ];
 
     public function purchase(): BelongsTo
@@ -30,16 +34,5 @@ class Payment extends Model
     public function gateway(): BelongsTo
     {
         return $this->belongsTo(PaymentGateway::class);
-    }
-
-    // Helper methods
-    public function isSuccessful(): bool
-    {
-        return $this->status === 'succeeded';
-    }
-
-    public function getFormattedAmount(): string
-    {
-        return number_format($this->amount, 2).' '.strtoupper($this->currency);
     }
 }

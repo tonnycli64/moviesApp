@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Encryption\Encrypter;
+use Illuminate\Support\Facades\Crypt;
 
 class PaymentGateway extends Model
 {
@@ -15,8 +16,9 @@ class PaymentGateway extends Model
     ];
 
     protected $casts = [
-        'credentials' => 'json',
-        'is_active' => 'boolean'
+        'credentials' => 'array',
+        'is_active' => 'boolean',
+
     ];
 
     public function payments(): HasMany
@@ -27,9 +29,10 @@ class PaymentGateway extends Model
     // Helper to decrypt credentials
     public function getDecryptedCredentials()
     {
-        return [
-            'key' => decrypt($this->credentials['key'] ?? ''),
-            'secret' => decrypt($this->credentials['secret'] ?? ''),
-        ];
+        return collect($this->credentials)
+        ->mapWithKeys(fn ($val, $key) => [
+            $key => Crypt::decryptString($val)
+        ])
+        ->toArray();
     }
 }
