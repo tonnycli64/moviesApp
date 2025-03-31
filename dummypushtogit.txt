@@ -1,1 +1,14 @@
 git add . && git commit -m "Updated site features" && git push origin main
+
+
+
+php artisan cache:clear
+php artisan route:clear
+php artisan config:clear
+php artisan view:clear
+php artisan event:clear
+php artisan optimize:clear
+
+
+
+{{ asset('movie/images') }}

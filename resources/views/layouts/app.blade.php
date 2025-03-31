@@ -1,36 +1,64 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<!DOCTYPE HTML>
+<html lang="en">
+	
+<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Moviepoint - Online Movie,Vedio and TV Show HTML Template</title>
+		<!-- Favicon Icon -->
+		<link rel="icon" type="image/png" href="{{ asset('assets/img/favcion.png') }}" />
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}" media="all" />
+		<!-- Slick nav CSS -->
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/slicknav.min.css') }}" media="all" />
+		<!-- Iconfont CSS -->
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/icofont.css') }}" media="all" />
+		<!-- Owl carousel CSS -->
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/owl.carousel.css') }}">
+		<!-- Popup CSS -->
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/magnific-popup.css') }}">
+		<!-- Main style CSS -->
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" media="all" />
+		<!-- Responsive CSS -->
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}" media="all" />
+		<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        @include('partials.nav')
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+            @yield('content')
+
+
+
+
+
+        @include('partials.footer')
+
+
+
+
+</body>
+
+		<!-- jquery main JS -->
+		<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+		<!-- Bootstrap JS -->
+		<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+		<!-- Slick nav JS -->
+		<script src="{{ asset('assets/js/jquery.slicknav.min.js') }}"></script>
+		<!-- owl carousel JS -->
+		<script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+		<!-- Popup JS -->
+		<script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
+		<!-- Isotope JS -->
+		<script src="{{ asset('assets/js/isotope.pkgd.min.js') }}"></script>
+		<!-- main JS -->
+		<script src="{{ asset('assets/js/main.js') }}"></script>
 </html>
